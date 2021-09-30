@@ -1,5 +1,7 @@
-package cheon.mission.config.auth;
+package cheon.mission.auth.service;
 
+import cheon.mission.auth.Dto.OAuthAttributes;
+import cheon.mission.auth.Dto.SessionUser;
 import cheon.mission.domain.User;
 import cheon.mission.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

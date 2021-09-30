@@ -1,4 +1,4 @@
-package cheon.mission.config.auth;
+package cheon.mission.auth.Dto;
 
 import cheon.mission.domain.Role;
 import cheon.mission.domain.User;
@@ -13,6 +13,7 @@ import java.util.Map;
  *          : 처음 가입할때 USER 권한으로 가입됨
  *          : SessionUser 생성함
 * */
+
 @Getter
 public class OAuthAttributes {
 

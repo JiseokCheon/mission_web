@@ -1,5 +1,6 @@
-package cheon.mission.config.auth;
+package cheon.mission.auth.config;
 
+import cheon.mission.auth.service.CustomOAuth2UserService;
 import cheon.mission.domain.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/static/**", "/assets/**", "/login_page/**").permitAll()
+                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/static/**", "/assets/**","/error/**", "/login_page/**", "/h2-console/**").permitAll()
                 .antMatchers("/api/v1/**").hasRole(Role.USER.name())
                 .anyRequest().authenticated()
                 .and()

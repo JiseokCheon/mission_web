@@ -1,6 +1,6 @@
 package cheon.mission.controller;
 
-import cheon.mission.config.auth.SessionUser;
+import cheon.mission.auth.Dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +15,12 @@ public class WebController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String home() {
+    public String home(Model model) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
         if(user != null){
-            System.out.println("user = " + user);
+            System.out.println("user = " + user.getName());
+            model.addAttribute("username", user.getName());
         }
 
         return "index";

@@ -25,7 +25,10 @@
                 <li>
                     <hr class="dropdown-divider"/>
                 </li>
-                <li><a class="dropdown-item" href="#!">Logout</a></li>
+                <li>
+                    <a class="dropdown-item" href="/logout" th:if="${username} != null" th:text="Logout"></a>
+                    <a class="dropdown-item" href="/login_page" th:unless="${username} != null" th:text="Login"></a>
+                </li>
             </ul>
         </li>
     </ul>
