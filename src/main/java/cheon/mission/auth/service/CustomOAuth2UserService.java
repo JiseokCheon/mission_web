@@ -33,8 +33,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private final UserRepository userRepository;
     private final HttpSession httpSession;
 
-
     @Override
+    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2UserService delegate = new DefaultOAuth2UserService();
@@ -54,7 +54,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 authAttributes.getNameAttributeKey());
     }
 
-    @Transactional
     User saveOrUpdate(OAuthAttributes authAttributes) {
         User user = userRepository.findByEmail(authAttributes.getEmail())
                 .map(entity -> entity.update(authAttributes.getName()))

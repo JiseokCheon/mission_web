@@ -16,6 +16,8 @@ public class UserRepository {
 
     public User save(User user) {
         em.persist(user);
+        System.out.println(user.getName());
+        System.out.println(user.getEmail());
         return user;
     }
 

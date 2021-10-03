@@ -26,12 +26,13 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "owner")
     private List<Mission> missions = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
 
     @Builder
     public User(String name, String email, Role role) {
@@ -46,7 +47,6 @@ public class User {
 
     public User update(String name){
         this.name = name;
-
         return this;
     }
 }

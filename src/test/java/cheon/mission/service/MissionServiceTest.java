@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -23,12 +25,15 @@ public class MissionServiceTest {
     MissionService missionService;
 
     @Test
-    public void 미션생성(){
-        Mission mission1 = new Mission("미션 1", "미션 내용");
-        Mission mission2 = new Mission("미션 2", "미션 내용");
+    public void 미션생성() {
+        LocalDate start = LocalDate.now();
+        LocalDate end = LocalDate.now();
 
-        Long saveId1 = missionService.join(mission1);
-        Long saveId2 = missionService.join(mission2);
+        Mission mission1 = new Mission("미션 1", "미션 내용", start, end, "code");
+        Mission mission2 = new Mission("미션 2", "미션 내용", start, end, "code");
+
+        Long saveId1 = missionService.save(mission1);
+        Long saveId2 = missionService.save(mission2);
 
         assertEquals(mission1, missionRepository.findById(saveId1));
         assertNotEquals(mission2, missionRepository.findById(saveId1));

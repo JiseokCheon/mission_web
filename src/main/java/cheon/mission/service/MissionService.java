@@ -16,7 +16,7 @@ public class MissionService {
     private final MissionRepository missionRepository;
 
     @Transactional
-    public Long join(Mission mission){
+    public Long save(Mission mission){
         missionRepository.save(mission);
         return mission.getId();
     }
@@ -25,4 +25,11 @@ public class MissionService {
         return missionRepository.findByName(name);
     }
 
+    public List<Mission> findAll(){
+        return missionRepository.findAll();
+    }
+
+    public Mission findById(Long id){
+        return missionRepository.findById(id);
+    }
 }
