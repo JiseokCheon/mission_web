@@ -29,10 +29,12 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private List<Mission> missions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<UserMission> userMissionList = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
-
 
     @Builder
     public User(String name, String email, Role role) {

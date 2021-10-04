@@ -24,6 +24,9 @@ public class Mission {
     @JoinColumn(name = "user_id")
     private User owner;
 
+    @OneToMany(mappedBy = "mission")
+    private List<UserMission> userMissionList = new ArrayList<>();
+
     @Column(nullable = false)
     private String context;
 

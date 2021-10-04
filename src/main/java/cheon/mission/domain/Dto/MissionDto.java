@@ -1,12 +1,8 @@
 package cheon.mission.domain.Dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.time.LocalDate;
-
-@Getter
-@Setter
+@Data
 public class MissionDto {
     private Long id;
     private String name;

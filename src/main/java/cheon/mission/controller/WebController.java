@@ -1,18 +1,19 @@
 package cheon.mission.controller;
 
 import cheon.mission.auth.Dto.SessionUser;
+import cheon.mission.domain.Dto.Message;
 import cheon.mission.domain.Dto.MissionDto;
 import cheon.mission.domain.Mission;
 import cheon.mission.domain.User;
+import cheon.mission.domain.UserMission;
 import cheon.mission.service.MissionService;
+import cheon.mission.service.UserMissionService;
 import cheon.mission.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
@@ -21,11 +22,14 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
+@SessionAttributes("user")
 public class WebController {
 
     private final HttpSession httpSession;
     private final MissionService missionService;
     private final UserService userService;
+    private final UserMissionService userMissionService;
+
 
     @GetMapping("/")
     public String home(Model model) {
@@ -46,6 +50,7 @@ public class WebController {
     @GetMapping("/search")
     public String search(@RequestParam("search") String search, Model model) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
         if (user != null) {
             model.addAttribute("username", user.getName());
             model.addAttribute("useremail", user.getEmail());
@@ -62,12 +67,17 @@ public class WebController {
 
     @GetMapping("/login_page")
     public String login() {
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
         return "login_page";
     }
 
     @GetMapping("/register")
     public String register(Model model) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        if (user != null) {
+            model.addAttribute("username", user.getName());
+            model.addAttribute("useremail", user.getEmail());
+        }
 
         model.addAttribute("missionDto", new MissionDto());
 
@@ -91,7 +101,12 @@ public class WebController {
 
         mission.setOwner(user);
 
+        UserMission userMission = new UserMission();
+        userMission.setMissionUser(mission);
+        userMission.setUserMission(user);
+
         missionService.save(mission);
+        userMissionService.save(userMission);
 
         return "redirect:/";
     }
@@ -113,11 +128,43 @@ public class WebController {
 
     @GetMapping("/charts/{missionId}")
     public String charts(@PathVariable("missionId") Long missionId, Model model) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        if (user != null) {
+            model.addAttribute("username", user.getName());
+            model.addAttribute("useremail", user.getEmail());
+        }
+
         Mission mission = missionService.findById(missionId);
 
         model.addAttribute(mission);
 
         return "charts";
+    }
+
+    @PostMapping("/charts/{missionId}")
+    public ModelAndView missionApplication(@PathVariable("missionId") Long missionId, ModelAndView modelAndView) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        User findUser = userService.findByEmail(user.getEmail());
+        Mission findMission = missionService.findById(missionId);
+
+        UserMission userMission = new UserMission();
+        userMission.setUserMission(findUser);
+        userMission.setMissionUser(findMission);
+
+        try {
+            userMissionService.save(userMission);
+            modelAndView.addObject("data", new Message("미션이 추가되었습니다.", "/charts/" + missionId));
+            modelAndView.setViewName("message");
+
+        } catch (IllegalStateException e) {
+
+            modelAndView.addObject("data", new Message(e.getMessage(), "/charts/" + missionId));
+            modelAndView.setViewName("message");
+        }
+
+        return modelAndView;
     }
 
     @GetMapping("/tables")
