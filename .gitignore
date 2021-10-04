@@ -8,6 +8,7 @@ build/
 !**/src/main/resources/application-oauth.yml
 !**/src/test/resources/application-oauth.yml
 
+
 ### STS ###
 .apt_generated
 .classpath
@@ -22,6 +23,7 @@ bin/
 
 ### IntelliJ IDEA ###
 .idea
+.DS_Store
 *.iws
 *.iml
 *.ipr
