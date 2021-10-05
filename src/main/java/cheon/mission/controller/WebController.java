@@ -3,6 +3,7 @@ package cheon.mission.controller;
 import cheon.mission.auth.Dto.SessionUser;
 import cheon.mission.domain.Dto.Message;
 import cheon.mission.domain.Dto.MissionDto;
+import cheon.mission.domain.Dto.Participant;
 import cheon.mission.domain.Mission;
 import cheon.mission.domain.User;
 import cheon.mission.domain.UserMission;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -101,7 +103,7 @@ public class WebController {
 
         mission.setOwner(user);
 
-        UserMission userMission = new UserMission();
+        UserMission userMission = new UserMission(LocalDateTime.now());
         userMission.setMissionUser(mission);
         userMission.setUserMission(user);
 
@@ -134,10 +136,11 @@ public class WebController {
             model.addAttribute("username", user.getName());
             model.addAttribute("useremail", user.getEmail());
         }
-
+        List<Participant> userList = userMissionService.findByMissionId(missionId);
         Mission mission = missionService.findById(missionId);
 
-        model.addAttribute(mission);
+        model.addAttribute("userList", userList);
+        model.addAttribute("mission", mission);
 
         return "charts";
     }
@@ -149,9 +152,10 @@ public class WebController {
         User findUser = userService.findByEmail(user.getEmail());
         Mission findMission = missionService.findById(missionId);
 
-        UserMission userMission = new UserMission();
+        UserMission userMission = new UserMission(LocalDateTime.now());
         userMission.setUserMission(findUser);
         userMission.setMissionUser(findMission);
+
 
         try {
             userMissionService.save(userMission);
@@ -168,7 +172,13 @@ public class WebController {
     }
 
     @GetMapping("/tables")
-    public String tables() {
+    public String tables(Model model) {
+        Long missionId = 2L;
+        List<Participant> userList = userMissionService.findByMissionId(missionId);
+        Mission mission = missionService.findById(missionId);
+
+        model.addAttribute("userList", userList);
+        model.addAttribute("mission", mission);
         return "tables";
     }
 

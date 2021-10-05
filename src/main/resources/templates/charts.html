@@ -20,16 +20,43 @@
                         </ol>
                     </div>
                     <form class="mb-4 mt-4 col-2" th:action="@{/charts/{missionId} (missionId=${mission.getId()})}" method="post">
-                        <button type="submit" class="mt-5 btn btn-primary">참여하기</button>
+                        <button type="submit" class="mt-5 btn btn-primary">미션 참여하기</button>
                     </form>
                 </div>
 
                 <div class="card mb-4">
                     <div class="card-body" th:text="${mission.getContext()}">
-                        Chart.js is a third party plugin that is used to generate the charts in this template. The
-                        charts below have been customized - for further customization options, please visit the official
-                        <a target="_blank" href="https://www.chartjs.org/docs/latest/">Chart.js documentation</a>
-                        .
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        참여자 목록
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                            <thead>
+                            <tr>
+                                <th>이름</th>
+                                <th>이메일</th>
+                                <th>참여한 날짜</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>이름</th>
+                                <th>이메일</th>
+                                <th>참여한 날짜</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr th:each="user : ${userList}">
+                                <th th:text="${user.getName()}">Name</th>
+                                <th th:text="${user.getEmail()}">Position</th>
+                                <th th:text="${user.getJoinTime().toLocalDate()}"></th>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -91,5 +118,7 @@
 <script src="/js/chart-area-demo.js"></script>
 <script src="/js/chart-bar-demo.js"></script>
 <script src="/js/chart-pie-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="/js/datatables-simple-demo.js"></script>
 </body>
 </html>

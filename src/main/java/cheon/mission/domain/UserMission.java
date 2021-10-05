@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * 다대다 관계를 위한 연결 테이블
@@ -26,6 +27,9 @@ public class UserMission {
     @JoinColumn(name = "mission_id")
     private Mission mission;
 
+    @Column(nullable = false)
+    private LocalDateTime joinTime;
+
     public void setUserMission(User user) {
         this.user = user;
         user.getUserMissionList().add(this);
@@ -36,4 +40,7 @@ public class UserMission {
         mission.getUserMissionList().add(this);
     }
 
+    public UserMission(LocalDateTime joinTime) {
+        this.joinTime = joinTime;
+    }
 }
