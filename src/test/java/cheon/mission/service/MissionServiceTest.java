@@ -1,6 +1,7 @@
 package cheon.mission.service;
 
 import cheon.mission.domain.Mission;
+import cheon.mission.domain.MissionStatus;
 import cheon.mission.repository.MissionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,8 +30,8 @@ public class MissionServiceTest {
         LocalDate start = LocalDate.now();
         LocalDate end = LocalDate.now();
 
-        Mission mission1 = new Mission("미션 1", "미션 내용", start, end, "code");
-        Mission mission2 = new Mission("미션 2", "미션 내용", start, end, "code");
+        Mission mission1 = new Mission("미션 1", "미션 내용", start, end, "code", MissionStatus.PROGRESS);
+        Mission mission2 = new Mission("미션 2", "미션 내용", start, end, "code", MissionStatus.PROGRESS);
 
         Long saveId1 = missionService.save(mission1);
         Long saveId2 = missionService.save(mission2);

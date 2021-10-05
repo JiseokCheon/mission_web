@@ -33,4 +33,9 @@ public class MissionRepository {
                 .getResultList();
     }
 
+    public List<Mission> findByUserId(Long userId) {
+        return em.createQuery("select m from Mission m where m.owner.id =:userId", Mission.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
 }

@@ -23,7 +23,7 @@
                                 <th:block th:text="${mission.getName()}"></th:block>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" th:href="@{/charts/{missionId} (missionId=${mission.getId()})}" th:text="${mission.getOwnerName()}"></a>
+                                <a class="small text-white stretched-link" th:href="@{/mission/{missionId} (missionId=${mission.getId()})}" th:text="${mission.getOwnerName()}"></a>
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>

@@ -1,6 +1,8 @@
 package cheon.mission.repository;
 
+import cheon.mission.domain.Dto.JoinMissionListDto;
 import cheon.mission.domain.Dto.Participant;
+import cheon.mission.domain.Mission;
 import cheon.mission.domain.UserMission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -31,12 +33,34 @@ public class UserMissionRepository {
         return resultList.stream().findAny();
     }
 
-    public List<Participant> findUserByMissionId(Long missionId) {
+    public List<Participant> findParticipantByMissionId(Long missionId) {
         List<Participant> resultList = em.createQuery("" +
-                        "select new cheon.mission.domain.Dto.Participant(u.name, u.email, um.joinTime) " +
-                        "from UserMission um join um.user u where um.mission.id = :missionId",
+                                "select new cheon.mission.domain.Dto.Participant(u.name, u.email, um.joinTime) " +
+                                "from UserMission um join um.user u where um.mission.id = :missionId",
                         Participant.class)
                 .setParameter("missionId", missionId)
+                .getResultList();
+        return resultList;
+    }
+
+    public List<JoinMissionListDto> findMissionListByUserId(Long userId) {
+        List<JoinMissionListDto> resultList = em.createQuery("" +
+                                "select new cheon.mission.domain.Dto.JoinMissionListDto(m.name, m.startDate,m.endDate, um.joinTime, m.missionStatus) " +
+                                "from UserMission um join um.mission m where um.user.id = :userId",
+                        JoinMissionListDto.class)
+                .setParameter("userId", userId)
+                .getResultList();
+        return resultList;
+    }
+
+    public List<Mission> findMissionByUserId(Long userId) {
+        List<Mission> resultList = em.createQuery("" +
+                                "select m " +
+                                "from UserMission um " +
+                                "join um.mission m " +
+                                "where um.user.id = :userId",
+                        Mission.class)
+                .setParameter("userId", userId)
                 .getResultList();
         return resultList;
     }

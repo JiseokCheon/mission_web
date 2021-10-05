@@ -1,10 +1,12 @@
 package cheon.mission.controller;
 
 import cheon.mission.auth.Dto.SessionUser;
+import cheon.mission.domain.Dto.JoinMissionListDto;
 import cheon.mission.domain.Dto.Message;
 import cheon.mission.domain.Dto.MissionDto;
 import cheon.mission.domain.Dto.Participant;
 import cheon.mission.domain.Mission;
+import cheon.mission.domain.MissionStatus;
 import cheon.mission.domain.User;
 import cheon.mission.domain.UserMission;
 import cheon.mission.service.MissionService;
@@ -99,7 +101,8 @@ public class WebController {
                 missionDto.getContext(),
                 startDate,
                 endDate,
-                missionDto.getCode());
+                missionDto.getCode(),
+                MissionStatus.PROGRESS);
 
         mission.setOwner(user);
 
@@ -128,8 +131,8 @@ public class WebController {
         return "layout-sidenav-light";
     }
 
-    @GetMapping("/charts/{missionId}")
-    public String charts(@PathVariable("missionId") Long missionId, Model model) {
+    @GetMapping("/mission/{missionId}")
+    public String missionDetail(@PathVariable("missionId") Long missionId, Model model) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
         if (user != null) {
@@ -142,10 +145,10 @@ public class WebController {
         model.addAttribute("userList", userList);
         model.addAttribute("mission", mission);
 
-        return "charts";
+        return "mission";
     }
 
-    @PostMapping("/charts/{missionId}")
+    @PostMapping("/mission/{missionId}")
     public ModelAndView missionApplication(@PathVariable("missionId") Long missionId, ModelAndView modelAndView) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
@@ -159,16 +162,31 @@ public class WebController {
 
         try {
             userMissionService.save(userMission);
-            modelAndView.addObject("data", new Message("미션이 추가되었습니다.", "/charts/" + missionId));
+            modelAndView.addObject("data", new Message("미션이 추가되었습니다.", "/mission/" + missionId));
             modelAndView.setViewName("message");
 
         } catch (IllegalStateException e) {
 
-            modelAndView.addObject("data", new Message(e.getMessage(), "/charts/" + missionId));
+            modelAndView.addObject("data", new Message(e.getMessage(), "/mission/" + missionId));
             modelAndView.setViewName("message");
         }
 
         return modelAndView;
+    }
+
+    @GetMapping("/mission/management")
+    public String missionManagement(Model model) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        List<JoinMissionListDto> missionList = userMissionService.findJoinMissionByUserId(user);
+        List<Mission> myMissionList = missionService.findByUserId(user);
+
+        model.addAttribute("username", user.getName());
+        model.addAttribute("useremail", user.getEmail());
+        model.addAttribute("missionList", missionList);
+        model.addAttribute("myMissionList", myMissionList);
+
+        return "missionManagement";
     }
 
     @GetMapping("/tables")

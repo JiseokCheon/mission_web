@@ -33,18 +33,23 @@ public class Mission {
     @Column(nullable = false)
     private String code;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MissionStatus missionStatus;
+
     @Column(nullable = false)
     private LocalDate startDate;
 
     @Column(nullable = false)
     private LocalDate endDate;
 
-    public Mission(String name, String context, LocalDate startDate, LocalDate endDate, String code) {
+    public Mission(String name, String context, LocalDate startDate, LocalDate endDate, String code, MissionStatus missionStatus) {
         this.name = name;
         this.context = context;
         this.startDate = startDate;
         this.endDate = endDate;
         this.code = code;
+        this.missionStatus = missionStatus;
     }
 
     // 양방향 연관 관계

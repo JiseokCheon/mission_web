@@ -1,14 +1,19 @@
 package cheon.mission.service;
 
+import cheon.mission.auth.Dto.SessionUser;
+import cheon.mission.domain.Dto.JoinMissionListDto;
 import cheon.mission.domain.Dto.Participant;
+import cheon.mission.domain.Mission;
 import cheon.mission.domain.User;
 import cheon.mission.domain.UserMission;
 import cheon.mission.repository.UserMissionRepository;
+import cheon.mission.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -17,6 +22,7 @@ import java.util.List;
 public class UserMissionService {
 
     private final UserMissionRepository userMissionRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void save(UserMission userMission){
@@ -25,8 +31,21 @@ public class UserMissionService {
     }
 
     public List<Participant> findByMissionId(Long missionId){
-        return userMissionRepository.findUserByMissionId(missionId);
+        return userMissionRepository.findParticipantByMissionId(missionId);
     }
+
+    public List<Mission> findByUserId(SessionUser user){
+        Optional<User> findUser = userRepository.findByEmail(user.getEmail());
+
+        return userMissionRepository.findMissionByUserId(findUser.get().getId());
+    }
+
+    public List<JoinMissionListDto> findJoinMissionByUserId(SessionUser user){
+        Optional<User> findUser = userRepository.findByEmail(user.getEmail());
+
+        return userMissionRepository.findMissionListByUserId(findUser.get().getId());
+    }
+
 
 
     private void validateDuplicate(UserMission userMission) {
