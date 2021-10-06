@@ -12,7 +12,6 @@
 
 <br>
 <br>
-<br>
 
 ## cascade 오류
 부모가 둘이 Entity (fk가 둘)인 상태에서 CascadeType.ALL로 설정해서 Referential integrity constraint violation 발생
