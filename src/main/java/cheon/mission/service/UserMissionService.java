@@ -46,12 +46,17 @@ public class UserMissionService {
         return userMissionRepository.findMissionListByUserId(findUser.get().getId());
     }
 
-
-
     private void validateDuplicate(UserMission userMission) {
         userMissionRepository.findByMissionIdAndUserId(userMission.getMission().getId(), userMission.getUser().getId())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 참가한 미션입니다.");
                 });
     }
+
+    @Transactional
+    public int deleteUserMission(SessionUser user, Long missionId){
+        Optional<User> findUser = userRepository.findByEmail(user.getEmail());
+        return userMissionRepository.deleteOneUserMission(findUser.get().getId(), missionId);
+    }
+
 }

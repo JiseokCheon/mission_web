@@ -33,6 +33,9 @@ public class Mission {
     @Column(nullable = false)
     private String code;
 
+    @OneToMany(mappedBy = "mission")
+    private List<Posting> postingList = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MissionStatus missionStatus;

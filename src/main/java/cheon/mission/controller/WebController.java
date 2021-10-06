@@ -121,16 +121,6 @@ public class WebController {
         return "password";
     }
 
-    @GetMapping("/layout/static")
-    public String layout_navigation() {
-        return "layout-static";
-    }
-
-    @GetMapping("/layout/sidenav")
-    public String layout_sidenav() {
-        return "layout-sidenav-light";
-    }
-
     @GetMapping("/mission/{missionId}")
     public String missionDetail(@PathVariable("missionId") Long missionId, Model model) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
@@ -187,6 +177,23 @@ public class WebController {
         model.addAttribute("myMissionList", myMissionList);
 
         return "missionManagement";
+    }
+
+    @DeleteMapping("/mission/join/delete/{missionId}")
+    public String joinedMissionManagement(@PathVariable("missionId") Long missionId) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        userMissionService.deleteUserMission(user, missionId);
+
+
+        return "redirect:/mission/management";
+    }
+
+    @DeleteMapping("/mission/create/delete/{missionId}")
+    public String createdMissionManagement(@PathVariable("missionId") Long missionId) {
+        missionService.deleteMission(missionId);
+
+        return "redirect:/mission/management";
     }
 
     @GetMapping("/tables")

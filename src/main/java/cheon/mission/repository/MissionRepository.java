@@ -38,4 +38,11 @@ public class MissionRepository {
                 .setParameter("userId", userId)
                 .getResultList();
     }
+
+    public int deleteMission(Long missionId) {
+        return em.createQuery("delete from Mission m where m.id = :missionId")
+                .setParameter("missionId", missionId)
+                .executeUpdate();
+    }
+
 }

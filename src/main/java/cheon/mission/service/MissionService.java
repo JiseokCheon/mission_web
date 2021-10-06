@@ -3,7 +3,9 @@ package cheon.mission.service;
 import cheon.mission.auth.Dto.SessionUser;
 import cheon.mission.domain.Mission;
 import cheon.mission.domain.User;
+import cheon.mission.domain.UserMission;
 import cheon.mission.repository.MissionRepository;
+import cheon.mission.repository.UserMissionRepository;
 import cheon.mission.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class MissionService {
 
     private final MissionRepository missionRepository;
     private final UserRepository userRepository;
+    private final UserMissionRepository userMissionRepository;
 
     @Transactional
     public Long save(Mission mission){
@@ -42,5 +45,11 @@ public class MissionService {
         Optional<User> findUser = userRepository.findByEmail(user.getEmail());
 
         return missionRepository.findByUserId(findUser.get().getId());
+    }
+
+    @Transactional
+    public int deleteMission(Long missionId){
+        userMissionRepository.deleteUserMissions(missionId);
+        return missionRepository.deleteMission(missionId);
     }
 }

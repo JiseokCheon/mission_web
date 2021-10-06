@@ -32,6 +32,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserMission> userMissionList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Posting> postingList = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;

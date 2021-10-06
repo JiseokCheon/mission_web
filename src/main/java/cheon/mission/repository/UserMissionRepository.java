@@ -45,7 +45,7 @@ public class UserMissionRepository {
 
     public List<JoinMissionListDto> findMissionListByUserId(Long userId) {
         List<JoinMissionListDto> resultList = em.createQuery("" +
-                                "select new cheon.mission.domain.Dto.JoinMissionListDto(m.name, m.startDate,m.endDate, um.joinTime, m.missionStatus) " +
+                                "select new cheon.mission.domain.Dto.JoinMissionListDto(m.id, m.name, m.startDate,m.endDate, um.joinTime, m.missionStatus) " +
                                 "from UserMission um join um.mission m where um.user.id = :userId",
                         JoinMissionListDto.class)
                 .setParameter("userId", userId)
@@ -65,4 +65,16 @@ public class UserMissionRepository {
         return resultList;
     }
 
+    public int deleteOneUserMission(Long userId, Long missionId) {
+        return em.createQuery("delete from UserMission um where um.mission.id = : missionId and um.user.id = :userId")
+                .setParameter("missionId", missionId)
+                .setParameter("userId", userId)
+                .executeUpdate();
+    }
+
+    public int deleteUserMissions(Long missionId) {
+        return em.createQuery("delete from UserMission um where um.mission.id = : missionId")
+                .setParameter("missionId", missionId)
+                .executeUpdate();
+    }
 }

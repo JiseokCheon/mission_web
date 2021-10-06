@@ -39,6 +39,7 @@
                                 <th>시작 날짜</th>
                                 <th>종료 날짜</th>
                                 <th>상태</th>
+                                <td></td>
                             </tr>
                             </thead>
                             <tfoot>
@@ -48,6 +49,7 @@
                                 <th>시작 날짜</th>
                                 <th>종료 날짜</th>
                                 <th>상태</th>
+                                <td></td>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -57,6 +59,11 @@
                                 <th th:text="${myMission.getStartDate()}"></th>
                                 <th th:text="${myMission.getEndDate()}"></th>
                                 <th th:text="${myMission.getMissionStatus()}"></th>
+                                <th style="text-align: center; padding-left: 0; padding-right: 0">
+                                    <form th:action="@{/mission/create/delete/{missionId} (missionId=${myMission.getId()})}" th:method="delete">
+                                        <button type="submit" class="btn btn-danger">미션 삭제</button>
+                                    </form>
+                                </th>
                             </tr>
                             </tbody>
                         </table>
@@ -75,6 +82,7 @@
                                 <th>참여 날짜</th>
                                 <th>종료 날짜</th>
                                 <th>상태</th>
+                                <td></td>
                             </tr>
                             </thead>
                             <tfoot>
@@ -83,6 +91,7 @@
                                 <th>참여 날짜</th>
                                 <th>종료 날짜</th>
                                 <th>상태</th>
+                                <td></td>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -91,6 +100,11 @@
                                 <th th:text="${mission.getJoinDate().toLocalDate()}"></th>
                                 <th th:text="${mission.getEndDate()}"></th>
                                 <th th:text="${mission.getMissionStatus()}"></th>
+                                <th style="text-align: center; padding-left: 0; padding-right: 0">
+                                    <form th:action="@{/mission/join/delete/{missionId} (missionId=${mission.getId()})}" th:method="delete">
+                                        <button type="submit" class="btn btn-danger">미션 나가기</button>
+                                    </form>
+                                </th>
                             </tr>
                             </tbody>
                         </table>
