@@ -32,7 +32,7 @@ class PostingServiceTest {
     @Test
     @DisplayName("포스팅 생성 테스트")
     public void 포스팅테스트() {
-        Posting posting = new Posting("포스팅", "내용");
+        Posting posting = new Posting("포스팅", "내용", LocalDate.now());
         User user = new User("천지석", "cjswltjr", Role.USER);
         Mission mission = new Mission("미션 1", "미션 내용", LocalDate.now(), LocalDate.now(), "code", MissionStatus.PROGRESS);
 

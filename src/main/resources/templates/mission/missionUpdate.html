@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Register - SB Admin</title>
+</head>
+<body class="sb-nav-fixed">
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+<div id="layoutSidenav">
+    <th:block th:replace="fragments/sidebar :: sidebar"></th:block>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header"><h3 class="text-center font-weight-light my-4">미션 수정</h3>
+                            </div>
+                            <div class="card-body">
+                                <form th:action="@{/mission/update/{missionId} (missionId=${mission.getId()})}" th:object="${missionDto}" method="post">
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <input th:value="${mission.getName()}" id="name" name="name" class="form-control" type="text"/>
+                                                <label th:for="name">미션 이름</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" type="text" maxlength="6" id="code" name="code" th:value="${mission.getCode()}"/>
+                                                <label th:for="code">참여 코드 (6자리)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" type="text" id="context" name="context"
+                                               placeholder="Enter your MissionName" th:value="${mission.getContext()}"/>
+                                        <label th:for="context">미션 내용</label>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" type="date" id="startDate" name="startDate"
+                                                       placeholder="Enter your MissionName" th:value="${mission.getStartDate()}"/>
+                                                <label th:for="startDate">시작 날짜</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" type="date" id="endDate" name="endDate"
+                                                       placeholder="Enter your MissionName" th:value="${mission.getEndDate()}"/>
+                                                <label th:for="endDate">종료 날짜</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 mb-0">
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <th:block th:replace="fragments/footer :: footer"></th:block>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="/js/scripts.js"></script>
+</body>
+</html>

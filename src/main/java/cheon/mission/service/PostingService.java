@@ -1,5 +1,6 @@
 package cheon.mission.service;
 
+import cheon.mission.domain.Mission;
 import cheon.mission.domain.Posting;
 import cheon.mission.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,4 +26,19 @@ public class PostingService {
         return findPostingList;
     }
 
+    public List<Posting> findPostingByUserId(Long userId){
+        List<Posting> findPostingList = postingRepository.findPostingByUserId(userId);
+        return findPostingList;
+    }
+
+    @Transactional
+    public int deletePosting(Long postingId){
+        int id = postingRepository.deletePosting(postingId);
+        return id;
+    }
+
+    @Transactional
+    public int deletePostingByMissionId(Long missionId){
+        return postingRepository.deletePostingByMissionId(missionId);
+    }
 }

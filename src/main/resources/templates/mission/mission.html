@@ -13,10 +13,10 @@
             <div class="container-fluid px-4">
                 <div class="row">
                     <div class="col-10">
-                        <h2 class="mt-4" th:text="${mission.getName()}">Charts</h2>
+                        <h2 class="mt-4" th:text="${mission.getName()}"></h2>
                         <ol class="breadcrumb mb-4 col-8">
-                            <li class="breadcrumb-item active" th:text="${mission.getOwnerName()}">Charts</li>
-                            <li class="breadcrumb-item active" th:text="${mission.owner.getEmail()}">Charts</li>
+                            <li class="breadcrumb-item active" th:text="${mission.getOwnerName()}"></li>
+                            <li class="breadcrumb-item active" th:text="${mission.owner.getEmail()}"></li>
                         </ol>
                     </div>
                     <form class="mb-4 mt-4 col-2" th:action="@{/mission/{missionId} (missionId=${mission.getId()})}"
@@ -57,6 +57,21 @@
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        포스팅 목록
+                    </div>
+                    <div class="card-body" th:each="posting : ${postingList}">
+                        <ol class="breadcrumb mb-4 col-8">
+                            <li class="breadcrumb-item active" th:text="${posting.getUser().getName()}"></li>
+                            <li class="breadcrumb-item active" th:text="${posting.getUser().getEmail()}"></li>
+                        </ol>
+                        <div class="etc" th:text="${posting.getContext()}">
+                        </div>
+                        <hr>
                     </div>
                 </div>
             </div>

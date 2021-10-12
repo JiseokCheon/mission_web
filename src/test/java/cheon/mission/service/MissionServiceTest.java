@@ -40,4 +40,18 @@ public class MissionServiceTest {
         assertNotEquals(mission2, missionRepository.findById(saveId1));
     }
 
+    @Test
+    public void 미션수정() {
+        LocalDate start = LocalDate.now();
+        LocalDate end = LocalDate.now();
+        Mission mission = new Mission("미션 1", "미션 내용", start, end, "code", MissionStatus.PROGRESS);
+        Long saveId = missionService.save(mission);
+
+        missionService.updateMission(saveId, "수정된 미션", "수정된 내용", start, end, "수정코드");
+
+        assertEquals(missionService.findById(saveId).getName(), "수정된 미션");
+        assertEquals(missionService.findById(saveId).getCode(), "수정코드");
+        assertEquals(missionService.findById(saveId).getContext(), "수정된 내용");
+
+    }
 }

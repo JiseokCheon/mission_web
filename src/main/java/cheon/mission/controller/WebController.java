@@ -1,15 +1,10 @@
 package cheon.mission.controller;
 
 import cheon.mission.auth.Dto.SessionUser;
-import cheon.mission.domain.Dto.JoinMissionListDto;
-import cheon.mission.domain.Dto.Message;
-import cheon.mission.domain.Dto.MissionDto;
-import cheon.mission.domain.Dto.Participant;
-import cheon.mission.domain.Mission;
-import cheon.mission.domain.MissionStatus;
-import cheon.mission.domain.User;
-import cheon.mission.domain.UserMission;
+import cheon.mission.domain.*;
+import cheon.mission.domain.Dto.*;
 import cheon.mission.service.MissionService;
+import cheon.mission.service.PostingService;
 import cheon.mission.service.UserMissionService;
 import cheon.mission.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +28,7 @@ public class WebController {
     private final MissionService missionService;
     private final UserService userService;
     private final UserMissionService userMissionService;
-
+    private final PostingService postingService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -68,7 +63,6 @@ public class WebController {
         return "search";
     }
 
-
     @GetMapping("/login_page")
     public String login() {
         return "login_page";
@@ -76,16 +70,14 @@ public class WebController {
 
     @GetMapping("/register")
     public String register(Model model) {
+
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
-        if (user != null) {
-            model.addAttribute("username", user.getName());
-            model.addAttribute("useremail", user.getEmail());
-        }
-
+        model.addAttribute("username", user.getName());
+        model.addAttribute("useremail", user.getEmail());
         model.addAttribute("missionDto", new MissionDto());
 
-        return "register";
+        return "mission/register";
     }
 
     @PostMapping("/register")
@@ -116,26 +108,76 @@ public class WebController {
         return "redirect:/";
     }
 
-    @GetMapping("/password")
-    public String password() {
-        return "password";
+    @GetMapping("/posting")
+    public String posting(Model model) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        List<JoinMissionListDto> missionList = userMissionService.findJoinMissionByUserId(user);
+
+        model.addAttribute("username", user.getName());
+        model.addAttribute("useremail", user.getEmail());
+        model.addAttribute("missionList", missionList);
+        model.addAttribute("postingDto", new PostingDto());
+
+        return "posting/posting";
     }
+
+    @PostMapping("/posting")
+    public String posting(PostingDto postingDto) {
+        SessionUser sUser = (SessionUser) httpSession.getAttribute("user");
+
+        Posting posting = new Posting(postingDto.getTitle(), postingDto.getContext(), LocalDate.now());
+
+        User user = userService.findByEmail(sUser.getEmail());
+        Mission mission = missionService.findById(postingDto.getMissionId());
+        posting.setPostingList(mission, user);
+
+        postingService.save(posting);
+
+        return "redirect:/mission/" + postingDto.getMissionId();
+    }
+
+    @GetMapping("/posting/management")
+    public String postingManagement(Model model) {
+        SessionUser sUser = (SessionUser) httpSession.getAttribute("user");
+
+        User user = userService.findByEmail(sUser.getEmail());
+
+        List<Posting> postingList = postingService.findPostingByUserId(user.getId());
+
+        model.addAttribute("username", sUser.getName());
+        model.addAttribute("useremail", sUser.getEmail());
+        model.addAttribute("postingList", postingList);
+
+        return "posting/postingManagement";
+    }
+
+    @DeleteMapping("/posting/delete/{postingId}")
+    public String deletePosting(@PathVariable("postingId") Long postingId) {
+
+        postingService.deletePosting(postingId);
+        return "redirect:/posting/management";
+    }
+
 
     @GetMapping("/mission/{missionId}")
     public String missionDetail(@PathVariable("missionId") Long missionId, Model model) {
+
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
-        if (user != null) {
-            model.addAttribute("username", user.getName());
-            model.addAttribute("useremail", user.getEmail());
-        }
         List<Participant> userList = userMissionService.findByMissionId(missionId);
         Mission mission = missionService.findById(missionId);
+        List<Posting> postingList = postingService.findPostingByMissionId(missionId);
 
+
+        model.addAttribute("username", user.getName());
+        model.addAttribute("useremail", user.getEmail());
         model.addAttribute("userList", userList);
         model.addAttribute("mission", mission);
+        model.addAttribute("postingList", postingList);
 
-        return "mission";
+
+        return "mission/mission";
     }
 
     @PostMapping("/mission/{missionId}")
@@ -164,6 +206,45 @@ public class WebController {
         return modelAndView;
     }
 
+    @GetMapping("/mission/update/{missionId}")
+    public String missionUpdate(@PathVariable("missionId") Long missionId, Model model) {
+        SessionUser sUser = (SessionUser) httpSession.getAttribute("user");
+        User user = userService.findByEmail(sUser.getEmail());
+        Mission mission;
+
+        try {
+            mission = missionService.findByMissionIdAndOwnerId(missionId, user.getId());
+        } catch (IllegalStateException e) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("mission", mission);
+        model.addAttribute("username", sUser.getName());
+        model.addAttribute("useremail", sUser.getEmail());
+        model.addAttribute("missionDto", new MissionDto());
+
+        return "mission/missionUpdate";
+    }
+
+    @PutMapping("/mission/update/{missionId}")
+    public String missionUpdate(@PathVariable("missionId") Long missionId, MissionDto missionDto) {
+        SessionUser sUser = (SessionUser) httpSession.getAttribute("user");
+        User user = userService.findByEmail(sUser.getEmail());
+
+        try {
+            missionService.findByMissionIdAndOwnerId(missionId, user.getId());
+        } catch (IllegalStateException e) {
+            return "redirect:/";
+        }
+
+        LocalDate startDate = LocalDate.parse(missionDto.getStartDate(), DateTimeFormatter.ISO_DATE);
+        LocalDate endDate = LocalDate.parse(missionDto.getEndDate(), DateTimeFormatter.ISO_DATE);
+
+        missionService.updateMission(missionId, missionDto.getName(), missionDto.getContext(), startDate, endDate, missionDto.getCode());
+
+        return "redirect:/mission/" + missionId;
+    }
+
     @GetMapping("/mission/management")
     public String missionManagement(Model model) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
@@ -176,7 +257,7 @@ public class WebController {
         model.addAttribute("missionList", missionList);
         model.addAttribute("myMissionList", myMissionList);
 
-        return "missionManagement";
+        return "mission/missionManagement";
     }
 
     @DeleteMapping("/mission/join/delete/{missionId}")
@@ -206,5 +287,4 @@ public class WebController {
         model.addAttribute("mission", mission);
         return "tables";
     }
-
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Password Reset - SB Admin</title>
+</head>
+<body class="sb-nav-fixed">
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+<div id="layoutSidenav">
+    <th:block th:replace="fragments/sidebar :: sidebar"></th:block>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header"><h3 class="text-center font-weight-light my-4">포스팅 작성</h3></div>
+                            <div class="card-body">
+                                <div class="small mb-3 text-muted">미션의 포스팅을 남겨주세요.
+                                </div>
+                                <form th:action="@{/templates/posting}" th:object="${postingDto}" method="post">
+                                    <div class="form-floating mb-3">
+                                        <select id="selectMission" th:field="*{missionId}">
+                                            <option th:each="mission : ${missionList}" th:text="${mission.getName()}" th:value="${mission.getId()}">
+                                            </option>
+                                        </select>
+                                   </div>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="posting" type="text" placeholder="제목" th:field="*{title}"/>
+                                        <label for="posting">제목</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <textarea class="form-control h-25" id="context" placeholder="내용" rows="5" th:field="*{context}"></textarea>
+                                        <label for="context">내용</label>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="small" href="../login_page.html">Return to login</a>
+                                        <button class="btn btn-primary" type="submit">작성</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer text-center py-3">
+                                <div class="small"><a href="../mission/register.html">Need an account? Sign up!</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <th:block th:replace="fragments/footer :: footer"></th:block>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="/js/scripts.js"></script>
+</body>
+</html>

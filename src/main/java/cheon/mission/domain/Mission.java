@@ -2,6 +2,7 @@ package cheon.mission.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
+@ToString
 public class Mission {
 
     @Id
@@ -53,6 +55,14 @@ public class Mission {
         this.endDate = endDate;
         this.code = code;
         this.missionStatus = missionStatus;
+    }
+
+    public void missionUpdate(String name, String context, String code, LocalDate startDate, LocalDate endDate){
+            this.name = name;
+            this.context = context;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.code = code;
     }
 
     // 양방향 연관 관계

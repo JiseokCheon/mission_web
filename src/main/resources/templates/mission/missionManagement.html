@@ -60,9 +60,15 @@
                                 <th th:text="${myMission.getEndDate()}"></th>
                                 <th th:text="${myMission.getMissionStatus()}"></th>
                                 <th style="text-align: center; padding-left: 0; padding-right: 0">
-                                    <form th:action="@{/mission/create/delete/{missionId} (missionId=${myMission.getId()})}" th:method="delete">
+                                    <form th:action="@{/mission/create/delete/{missionId} (missionId=${myMission.getId()})}"
+                                          th:method="delete">
                                         <button type="submit" class="btn btn-danger">미션 삭제</button>
                                     </form>
+                                </th>
+                                <th style="text-align: center; padding-left: 0; padding-right: 0">
+                                    <a th:href="@{/mission/update/{missionId} (missionId=${myMission.getId()})}"
+                                            class="btn btn-secondary">미션 수정
+                                    </a>
                                 </th>
                             </tr>
                             </tbody>
@@ -101,7 +107,8 @@
                                 <th th:text="${mission.getEndDate()}"></th>
                                 <th th:text="${mission.getMissionStatus()}"></th>
                                 <th style="text-align: center; padding-left: 0; padding-right: 0">
-                                    <form th:action="@{/mission/join/delete/{missionId} (missionId=${mission.getId()})}" th:method="delete">
+                                    <form th:action="@{/mission/join/delete/{missionId} (missionId=${mission.getId()})}"
+                                          th:method="delete">
                                         <button type="submit" class="btn btn-danger">미션 나가기</button>
                                     </form>
                                 </th>
