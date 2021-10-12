@@ -70,11 +70,12 @@
                     </div>
                     <div class="card-body" th:each="posting : ${postingList}">
                         <ol class="breadcrumb mb-4 col-8">
-                            <li class="breadcrumb-item active" th:text="${posting.getTitle()}"></li>
+                            <li class="breadcrumb-item active" th:text="'제목 : ' + ${posting.getTitle()}"></li>
                             <li class="breadcrumb-item active" th:text="${posting.getUser().getName()}"></li>
                             <li class="breadcrumb-item active" th:text="${posting.getUser().getEmail()}"></li>
+                            <li class="breadcrumb-item active" th:text="${posting.getWriteDate()}"></li>
                         </ol>
-                        <div class="etc" th:text="${posting.getContext()}">
+                        <div class="etc" th:text="'내용 : ' +${posting.getContext()}">
                         </div>
                         <hr>
                     </div>

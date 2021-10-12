@@ -25,7 +25,7 @@ public class PostingRepository {
     }
 
     public List<Posting> findPostingByMissionId(Long missionId) {
-        return em.createQuery("select p from Posting p where p.mission.id = :missionId")
+        return em.createQuery("select p from Posting p where p.mission.id = :missionId order by p.id desc")
                 .setParameter("missionId", missionId)
                 .getResultList();
     }
