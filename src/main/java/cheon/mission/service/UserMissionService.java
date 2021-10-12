@@ -36,11 +36,6 @@ public class UserMissionService {
         return userMissionRepository.findParticipantByMissionId(missionId);
     }
 
-    public List<Mission> findByUserId(SessionUser user){
-        Optional<User> findUser = userRepository.findByEmail(user.getEmail());
-
-        return userMissionRepository.findMissionByUserId(findUser.get().getId());
-    }
 
     public List<JoinMissionListDto> findJoinMissionByUserId(SessionUser user){
         Optional<User> findUser = userRepository.findByEmail(user.getEmail());

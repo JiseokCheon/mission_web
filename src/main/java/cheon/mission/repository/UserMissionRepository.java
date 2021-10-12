@@ -35,7 +35,7 @@ public class UserMissionRepository {
 
     public List<Participant> findParticipantByMissionId(Long missionId) {
         List<Participant> resultList = em.createQuery("" +
-                                "select new cheon.mission.domain.Dto.Participant(u.name, u.email, um.joinTime) " +
+                                "select new cheon.mission.domain.Dto.Participant(u.name, u.email, um.joinTime, um.postingCheck) " +
                                 "from UserMission um join um.user u where um.mission.id = :missionId",
                         Participant.class)
                 .setParameter("missionId", missionId)
@@ -53,16 +53,17 @@ public class UserMissionRepository {
         return resultList;
     }
 
-    public List<Mission> findMissionByUserId(Long userId) {
-        List<Mission> resultList = em.createQuery("" +
-                                "select m " +
+    public Optional<UserMission> findMissionByUserId(Long userId, Long missionId) {
+        UserMission singleResult = em.createQuery("" +
+                                "select um " +
                                 "from UserMission um " +
-                                "join um.mission m " +
-                                "where um.user.id = :userId",
-                        Mission.class)
+                                "where um.user.id = :userId " +
+                                "and um.mission.id = :missionId",
+                        UserMission.class)
                 .setParameter("userId", userId)
-                .getResultList();
-        return resultList;
+                .setParameter("missionId", missionId)
+                .getSingleResult();
+        return Optional.ofNullable(singleResult);
     }
 
     public int deleteOneUserMission(Long userId, Long missionId) {
@@ -75,6 +76,24 @@ public class UserMissionRepository {
     public int deleteUserMissions(Long missionId) {
         return em.createQuery("delete from UserMission um where um.mission.id = : missionId")
                 .setParameter("missionId", missionId)
+                .executeUpdate();
+    }
+
+    public void updatePostingCheck(Long userId, Long missionId) {
+        UserMission singleResult = em.createQuery("" +
+                                "select um " +
+                                "from UserMission um " +
+                                "where um.user.id = :userId " +
+                                "and um.mission.id = :missionId",
+                        UserMission.class)
+                .setParameter("userId", userId)
+                .setParameter("missionId", missionId)
+                .getSingleResult();
+        singleResult.updatePostingCheck();
+    }
+
+    public void everyPostingCheckfalse(){
+        em.createQuery("update UserMission set postingCheck = false")
                 .executeUpdate();
     }
 }

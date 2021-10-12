@@ -30,6 +30,9 @@ public class UserMission {
     @Column(nullable = false)
     private LocalDateTime joinTime;
 
+    @Column(nullable = false)
+    private boolean postingCheck;
+
     public void setUserMission(User user) {
         this.user = user;
         user.getUserMissionList().add(this);
@@ -40,7 +43,12 @@ public class UserMission {
         mission.getUserMissionList().add(this);
     }
 
-    public UserMission(LocalDateTime joinTime) {
+    public void updatePostingCheck(){
+        this.postingCheck = true;
+    }
+
+    public UserMission(LocalDateTime joinTime, boolean postingCheck) {
         this.joinTime = joinTime;
+        this.postingCheck = postingCheck;
     }
 }

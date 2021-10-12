@@ -40,6 +40,7 @@
                                 <th>이름</th>
                                 <th>이메일</th>
                                 <th>참여한 날짜</th>
+                                <th>오늘 미션 완료</th>
                             </tr>
                             </thead>
                             <tfoot>
@@ -47,6 +48,7 @@
                                 <th>이름</th>
                                 <th>이메일</th>
                                 <th>참여한 날짜</th>
+                                <th>오늘 미션 완료</th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -54,6 +56,8 @@
                                 <th th:text="${user.getName()}">Name</th>
                                 <th th:text="${user.getEmail()}">Position</th>
                                 <th th:text="${user.getJoinTime().toLocalDate()}"></th>
+                                <th th:if="${user.postingCheck}">O</th>
+                                <th th:unless="${user.postingCheck}">X</th>
                             </tr>
                             </tbody>
                         </table>
@@ -66,6 +70,7 @@
                     </div>
                     <div class="card-body" th:each="posting : ${postingList}">
                         <ol class="breadcrumb mb-4 col-8">
+                            <li class="breadcrumb-item active" th:text="${posting.getTitle()}"></li>
                             <li class="breadcrumb-item active" th:text="${posting.getUser().getName()}"></li>
                             <li class="breadcrumb-item active" th:text="${posting.getUser().getEmail()}"></li>
                         </ol>
