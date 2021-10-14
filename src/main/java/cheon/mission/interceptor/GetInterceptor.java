@@ -1,6 +1,6 @@
 package cheon.mission.interceptor;
 
-import cheon.mission.auth.Dto.SessionUser;
+import cheon.mission.security.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,5 @@
-package cheon.mission.auth.Dto;
+package cheon.mission.security.dto;
 
-import cheon.mission.domain.Role;
 import cheon.mission.domain.User;
 import lombok.Getter;
 

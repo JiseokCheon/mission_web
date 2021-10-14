@@ -1,7 +1,7 @@
-package cheon.mission.auth.service;
+package cheon.mission.security.service;
 
-import cheon.mission.auth.Dto.OAuthAttributes;
-import cheon.mission.auth.Dto.SessionUser;
+import cheon.mission.security.dto.OAuthAttributes;
+import cheon.mission.security.dto.SessionUser;
 import cheon.mission.domain.User;
 import cheon.mission.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,15 +35,21 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     @Override
     @Transactional
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+    public OAuth2User loadUser(OAuth2UserRequest userRequest)
+            throws OAuth2AuthenticationException {
 
         OAuth2UserService delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+        String registrationId = userRequest
+                .getClientRegistration()
+                .getRegistrationId();
+        String userNameAttributeName = userRequest
+                .getClientRegistration().getProviderDetails()
+                .getUserInfoEndpoint().getUserNameAttributeName();
 
-        OAuthAttributes authAttributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+        OAuthAttributes authAttributes = OAuthAttributes
+                .of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         User user = saveOrUpdate(authAttributes);
         httpSession.setAttribute("user", new SessionUser(user));

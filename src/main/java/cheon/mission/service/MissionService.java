@@ -1,6 +1,6 @@
 package cheon.mission.service;
 
-import cheon.mission.auth.Dto.SessionUser;
+import cheon.mission.security.dto.SessionUser;
 import cheon.mission.domain.Mission;
 import cheon.mission.domain.User;
 import cheon.mission.repository.MissionRepository;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.NoResultException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

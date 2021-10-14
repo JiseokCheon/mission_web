@@ -1,9 +1,8 @@
 package cheon.mission.service;
 
-import cheon.mission.auth.Dto.SessionUser;
+import cheon.mission.security.dto.SessionUser;
 import cheon.mission.domain.Dto.JoinMissionListDto;
 import cheon.mission.domain.Dto.Participant;
-import cheon.mission.domain.Mission;
 import cheon.mission.domain.User;
 import cheon.mission.domain.UserMission;
 import cheon.mission.repository.PostingRepository;

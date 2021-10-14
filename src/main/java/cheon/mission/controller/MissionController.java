@@ -1,6 +1,6 @@
 package cheon.mission.controller;
 
-import cheon.mission.auth.Dto.SessionUser;
+import cheon.mission.security.dto.SessionUser;
 import cheon.mission.domain.*;
 import cheon.mission.domain.Dto.JoinMissionListDto;
 import cheon.mission.domain.Dto.Message;
