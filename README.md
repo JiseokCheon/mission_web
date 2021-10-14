@@ -1,14 +1,20 @@
-# mission_web
+# Daily Mission web service
 
-### 누구나 여러 사용자들이 참여할 있는 1일 미션을 등록해 미션 진행을 관리하는 웹 사이트
+### 1일 1알고리즘,  코딩테스트 스터디 등 온라인 모임을 관리할 수 있는 서비스입니다.
+### 일일 미션은 누구나 생성가능하고 참여할 수 있습니다.
+### 미션에 참여하는 사람은 일일 포스팅을 작성해 미션 인증을 해야합니다.
+
 
 ##### 예) 1일 1알고리즘 풀이
 
-
-+ spring boot 
+### 사용한 기술 스택
++ Spring Boot
++ Spring Security
 + JPA
-+ spring security
-+ OAuth2 
++ MySQL
++ OAuth2.0
++ Junit5
++ AWS(infra) 
 
 <br>
 <br>
