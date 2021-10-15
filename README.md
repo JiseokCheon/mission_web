@@ -17,7 +17,7 @@
 + OAuth2.0
 + Junit5
 + AWS(infra) 
-+ Nginx 설치 중...
++ Nginx
 + 
 <br>
 <br>
