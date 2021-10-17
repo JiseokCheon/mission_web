@@ -12,14 +12,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InterceptorConfig implements WebMvcConfigurer {
 
-    private static final List<String> getURL = Arrays.asList("/register/*", "/mission/*", "/posting/*");
-    private static final List<String> postURL = Arrays.asList("/charts/*");
+    private static final List<String> getURL = Arrays.asList("/**");
+    //private static final List<String> postURL = Arrays.asList();
     private final GetInterceptor getInterceptor;
     private final PostInterceptor postInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getInterceptor).addPathPatterns(getURL);
-        registry.addInterceptor(postInterceptor).addPathPatterns(postURL);
+        //registry.addInterceptor(postInterceptor).addPathPatterns(postURL);
     }
 }

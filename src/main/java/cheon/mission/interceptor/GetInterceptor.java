@@ -20,13 +20,13 @@ public class GetInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        if(request.getMethod().equals(HttpMethod.GET.name())){
-            if (user == null) {
-                response.sendRedirect("/login_page");
-                return false;
-            }
-        }
+//        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+//        if(request.getMethod().equals(HttpMethod.GET.name())){
+//            if (user == null) {
+//                response.sendRedirect("/login_page");
+//                return false;
+//            }
+//        }
 
         return true;
     }
@@ -34,9 +34,11 @@ public class GetInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        if(request.getMethod().equals(HttpMethod.GET.name())){
-            modelAndView.addObject("username", user.getName());
-            modelAndView.addObject("useremail", user.getEmail());
+        if (request.getMethod().equals(HttpMethod.GET.name())) {
+            if (user != null && modelAndView != null) {
+                modelAndView.addObject("username", user.getName());
+                modelAndView.addObject("useremail", user.getEmail());
+            }
         }
     }
 }

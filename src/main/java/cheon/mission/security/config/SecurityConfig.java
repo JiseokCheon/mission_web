@@ -3,6 +3,7 @@ package cheon.mission.security.config;
 import cheon.mission.security.service.CustomOAuth2UserService;
 import cheon.mission.domain.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * antMatchers : 권한 관리 대상 지정, (url, http 메소드 별로 관리 가능)
  * anyRequest : 설정된 값 이외의 나머지 url
  * authenticated : 인증된 사용자들만 허용
+ * formLogin.loginPage() : 로그인 페이지
  * logout().logoutSuccessUrl("/") : 로그아웃 시 " / " 주소로 이동
  * oauth2Login() : OAuth2 로그인 기능
  * userInfoEndpoint : OAuth2 로그인 이후 사용자 정보들 가져오는 설정 담당
@@ -40,6 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
+                .and()
+                .formLogin()
+                .loginPage("/login_page")
                 .and()
                 .oauth2Login()
                 .userInfoEndpoint()

@@ -17,17 +17,10 @@ import java.util.List;
 @SessionAttributes("user")
 public class WebController {
 
-    private final HttpSession httpSession;
     private final MissionService missionService;
 
     @GetMapping("/")
     public String home(Model model) {
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-
-        if (user != null) {
-            model.addAttribute("username", user.getName());
-            model.addAttribute("useremail", user.getEmail());
-        }
 
         List<Mission> allMissions = missionService.findAll();
 
@@ -38,12 +31,6 @@ public class WebController {
 
     @GetMapping("/search")
     public String search(@RequestParam("search") String search, Model model) {
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-
-        if (user != null) {
-            model.addAttribute("username", user.getName());
-            model.addAttribute("useremail", user.getEmail());
-        }
 
         List<Mission> allMissions = missionService.findMissions(search);
 

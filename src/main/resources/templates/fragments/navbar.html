@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark" th:fragment="navbar">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="/">일일 미션 챌린지</a>
@@ -20,7 +20,7 @@
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" th:if="${username} != null" th:text="${username}"></a></li>
+                <li><a th:if="${useremail} != null" class="dropdown-item" th:text="${username}"></a></li>
                 <li><a class="dropdown-item" th:if="${useremail} != null" th:text="${useremail}"></a></li>
                 <li>
                     <hr class="dropdown-divider" th:if="${useremail} != null"/>

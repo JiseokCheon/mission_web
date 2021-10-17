@@ -33,11 +33,6 @@ public class MissionController {
 
     @GetMapping("/register")
     public String register(Model model) {
-
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-
-        model.addAttribute("username", user.getName());
-        model.addAttribute("useremail", user.getEmail());
         model.addAttribute("missionDto", new MissionDto());
 
         return "mission/register";
@@ -74,15 +69,10 @@ public class MissionController {
     @GetMapping("/mission/{missionId}")
     public String missionDetail(@PathVariable("missionId") Long missionId, Model model) {
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-
         List<Participant> userList = userMissionService.findByMissionId(missionId);
         Mission mission = missionService.findById(missionId);
         List<Posting> postingList = postingService.findPostingByMissionId(missionId);
 
-
-        model.addAttribute("username", user.getName());
-        model.addAttribute("useremail", user.getEmail());
         model.addAttribute("userList", userList);
         model.addAttribute("mission", mission);
         model.addAttribute("postingList", postingList);
@@ -129,8 +119,6 @@ public class MissionController {
         }
 
         model.addAttribute("mission", mission);
-        model.addAttribute("username", sUser.getName());
-        model.addAttribute("useremail", sUser.getEmail());
         model.addAttribute("missionDto", new MissionDto());
 
         return "mission/missionUpdate";
@@ -162,8 +150,6 @@ public class MissionController {
         List<JoinMissionListDto> missionList = userMissionService.findJoinMissionByUserId(user);
         List<Mission> myMissionList = missionService.findByUserId(user);
 
-        model.addAttribute("username", user.getName());
-        model.addAttribute("useremail", user.getEmail());
         model.addAttribute("missionList", missionList);
         model.addAttribute("myMissionList", myMissionList);
 

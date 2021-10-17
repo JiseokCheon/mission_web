@@ -37,8 +37,6 @@ public class PostingController {
 
         List<JoinMissionListDto> missionList = userMissionService.findJoinMissionByUserId(user);
 
-        model.addAttribute("username", user.getName());
-        model.addAttribute("useremail", user.getEmail());
         model.addAttribute("missionList", missionList);
         model.addAttribute("postingDto", new PostingDto());
 
@@ -68,8 +66,6 @@ public class PostingController {
 
         List<Posting> postingList = postingService.findPostingByUserId(user.getId());
 
-        model.addAttribute("username", sUser.getName());
-        model.addAttribute("useremail", sUser.getEmail());
         model.addAttribute("postingList", postingList);
 
         return "posting/postingManagement";
