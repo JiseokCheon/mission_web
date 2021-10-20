@@ -25,3 +25,9 @@
 ## cascade 오류
 부모가 둘이 Entity (fk가 둘)인 상태에서 CascadeType.ALL로 설정해서 Referential integrity constraint violation 발생
 -> cascade 사용하지 않고 수동으로 삭제, 추가 해줌
+
+<br>
+<br>
+
+## 추가할 것
+실시간 채팅
