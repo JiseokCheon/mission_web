@@ -18,10 +18,7 @@
 + Junit5
 + AWS(infra) 
 + Nginx
-+ 
 <br>
-<br>
-
 ![infra](./images/infra.png)
 
 <br>
